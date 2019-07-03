@@ -1,0 +1,24 @@
+# -*- coding: utf-8 -*-
+issuer: Free
+fields:
+  amount: Total facture\s+\d+.\d{2}\s+\d+.\d{2}\s+(\d+.\d{2})
+  amount_untaxed: Total facture\s+(\d+.\d{2})
+  date: Facture n°\d+ du (\d+ .+ \d{4})
+  date_due: Date limite de paiement le (\d+ .+ \d{4})
+  invoice_number: Facture n°(\d+)
+  static_vat: FR60421938861
+keywords:
+  - FR 604 219 388 61
+  - Facture
+  - EUR
+tables:
+  - start: Numéro de ligne\s+Id\.client\s+Adresse de l’installation
+    end: Facture n°
+    body: (?P<line_number>\w+)\s+(?P<client_id>\d+)\s+[\w ]+
+options:
+  currency: EUR
+  date_formats:
+      - '%d %B %Y'
+  languages:
+    - fr
+  decimal_separator: '.'
