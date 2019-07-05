@@ -1,32 +1,55 @@
 ﻿using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using Wikiled.Common.Resources;
-using YamlDotNet.RepresentationModel;
+using Microsoft.Extensions.Logging;
+using Wikiled.Invoices.Yaml.Data;
 using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 
 namespace Wikiled.Invoices.Yaml
 {
     public class YamlLoader : IYamlLoader
     {
-        public IEnumerable<YamlDefinition> Load()
+        private readonly ILogger<YamlLoader> _logger;
+
+        public YamlLoader(ILogger<YamlLoader> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+        public IEnumerable<InvoiceTemplate> Load()
         {
             var assembly = GetType().Assembly;
             var files = assembly.GetManifestResourceNames();
             foreach (var file in files)
             {
-                using (var stream = assembly.GetEmbeddedFile(file))
+                using (var stream = assembly.GetManifestResourceStream(file))
                 {
+                    if (stream == null)
+                    {
+                        _logger.LogError("Stream {0} is null", file);
+                        continue;
+                    }
+
                     using (var reader = new StreamReader(stream))
                     {
-                        var deserializer = new DeserializerBuilder()
-                                           .WithNamingConvention(new CamelCaseNamingConvention())
-                                           .Build();
-                        var yaml = new YamlStream();
-                        yaml.Load(reader);
-                        var mapping = (YamlMappingNode)yaml.Documents[0].RootNode;
-                        mapping.
+                        var deserializer = new DeserializerBuilder().Build();
+                        var yamlObject = deserializer.Deserialize(reader);
+
+                        var serializer = new SerializerBuilder()
+                            .JsonCompatible()
+                            .Build();
+
+                        var json = serializer.Serialize(yamlObject);
+                        var result = JsonConvert.DeserializeObject<InvoiceTemplate>(json);
+                        if (result.Validate())
+                        {
+                            yield return result;
+                        }
+                        else
+                        {
+                            _logger.LogError("Failed to construct object: {0}", json);
+                        }
                     }
                 }
             }

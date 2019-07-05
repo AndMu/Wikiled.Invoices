@@ -8,6 +8,6 @@ keywords:
 - M9-0002526-N
 options:
   remove_whitespace: true
-  currency: HKD
+  currency: HKD                                                                  
   date_formats:
     - '%d/%m/%Y'

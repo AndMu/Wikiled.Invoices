@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Logging.Abstractions;
 using NUnit.Framework;
+using System;
 using System.Linq;
 using Wikiled.Invoices.Yaml;
 
@@ -18,13 +20,19 @@ namespace Wikiled.Invoices.Tests.Yaml
         [Test]
         public void Construct()
         {
+            Assert.Throws<ArgumentNullException>(() => new YamlLoader(null));
+        }
+
+        [Test]
+        public void Load()
+        {
             var result = instance.Load().ToArray();
-            Assert.AreEqual(1, result);
+            Assert.AreEqual(107, result);
         }
 
         private YamlLoader CreateInstance()
         {
-            return new YamlLoader();
+            return new YamlLoader(NullLogger<YamlLoader>.Instance);
         }
     }
 }

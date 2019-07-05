@@ -17,4 +17,10 @@
     <ProjectReference Include="..\Wikiled.Invoices\Wikiled.Invoices.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Data\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
