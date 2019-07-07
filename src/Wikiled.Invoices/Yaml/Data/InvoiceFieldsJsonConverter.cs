@@ -8,14 +8,14 @@ namespace Wikiled.Invoices.Yaml.Data
     {
         public override bool CanConvert(Type objectType)
         {
-            return objectType.IsAssignableFrom(typeof(IEnumerable<InvoiceFields>));
+            return objectType.IsAssignableFrom(typeof(IEnumerable<InvoiceField>));
         }
 
         public override bool CanWrite => true;
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var result = new List<InvoiceFields>();
+            var result = new List<InvoiceField>();
             while (reader.TokenType != JsonToken.EndObject)
             {
                 if (reader.TokenType == JsonToken.StartObject)
@@ -25,7 +25,7 @@ namespace Wikiled.Invoices.Yaml.Data
 
                 if (reader.TokenType == JsonToken.PropertyName)
                 {
-                    var field = new InvoiceFields();
+                    var field = new InvoiceField();
                     field.Key = reader.Value.ToString();
                     reader.Read();
                     if (reader.TokenType == JsonToken.StartArray)

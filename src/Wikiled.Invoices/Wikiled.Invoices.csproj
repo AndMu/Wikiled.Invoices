@@ -10,8 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Wikiled.Common" Version="1.1.8" />
+    <PackageReference Include="Wikiled.Common" Version="1.1.9" />
     <PackageReference Include="YamlDotNet" Version="6.1.1" />
   </ItemGroup>
+
 
 </Project>

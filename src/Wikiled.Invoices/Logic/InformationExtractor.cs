@@ -11,6 +11,11 @@ namespace Wikiled.Invoices.Logic
 
         public InformationExtractor(IYamlLoader templatesSource)
         {
+            if (templatesSource == null)
+            {
+                throw new ArgumentNullException(nameof(templatesSource));
+            }
+
             templates = templatesSource.Load().ToArray();
         }
 

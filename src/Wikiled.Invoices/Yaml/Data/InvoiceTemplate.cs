@@ -5,12 +5,14 @@ namespace Wikiled.Invoices.Yaml.Data
 {
     public class InvoiceTemplate
     {
+        public static InvoiceTemplate None { get; } = new InvoiceTemplate();
+
         public string Issuer { get; set; }
 
         public string[] Keywords { get; set; }
 
         [JsonConverter(typeof(InvoiceFieldsConverter))]
-        public InvoiceFields[] Fields { get; set; }
+        public InvoiceField[] Fields { get; set; }
 
         public JArray Tables { get; set; }
 

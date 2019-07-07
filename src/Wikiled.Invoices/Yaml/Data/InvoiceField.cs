@@ -1,6 +1,6 @@
 ﻿namespace Wikiled.Invoices.Yaml.Data
 {
-    public class InvoiceFields
+    public class InvoiceField
     {
         public string Key { get; set; }
 

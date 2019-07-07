@@ -12,7 +12,7 @@ namespace Wikiled.Invoices.Yaml.Data
         public bool RemoveAccents { get; set; }
 
         [JsonProperty("lowercase")]
-        public bool Lowercase { get; set; }
+        public bool IsLowercase { get; set; }
 
         [JsonProperty("currency")]
         public string Currency { get; set; } = "GBP";

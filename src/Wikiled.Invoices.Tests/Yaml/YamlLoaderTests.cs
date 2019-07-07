@@ -27,7 +27,7 @@ namespace Wikiled.Invoices.Tests.Yaml
         public void Load()
         {
             var result = instance.Load().ToArray();
-            Assert.AreEqual(107, result);
+            Assert.AreEqual(107, result.Length);
         }
 
         private YamlLoader CreateInstance()
