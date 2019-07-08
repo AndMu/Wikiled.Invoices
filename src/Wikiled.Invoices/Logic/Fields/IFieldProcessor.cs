@@ -3,7 +3,7 @@ using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields
 {
-    public interface IFieldExtractorFactory
+    public interface IFieldProcessor
     {
         IEnumerable<FieldResult> Construct(InvoiceTemplate template, Document document);
     }

@@ -1,37 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields
 {
-    public class FieldExtractor : IFieldExtractorFactory
+    public class FieldExtractor : IFieldExtractor
     {
-        private readonly IFieldExtractor[] extractors;
-
-        public FieldExtractor()
+        public IEnumerable<FieldResult> Extract(InvoiceField field, Document document)
         {
-            extractors = new IFieldExtractor[]
-                         {
-                             new StaticFieldExtractor()
-                         };
-        }
-
-        public IEnumerable<FieldResult> Construct(InvoiceTemplate template, Document document)
-        {
-            if (template == null)
+            if (field == null)
             {
-                throw new ArgumentNullException(nameof(template));
+                throw new ArgumentNullException(nameof(field));
             }
 
-            foreach (InvoiceField field in template.Fields)
+            if (document == null)
             {
-                foreach (IFieldExtractor extractor in extractors)
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            foreach (var value in field.Values)
+            {
+                var match = Regex.Matches(document.Text, value);
+                foreach (Match matchGroup in match)
                 {
-                    var result = extractor.Extract(field, document);
-                    foreach (var item in result)
-                    {
-                        yield return item;
-                    }
+                    yield return new FieldResult(field.Key, matchGroup.Groups[matchGroup.Groups.Count - 1].Value);
                 }
             }
         }

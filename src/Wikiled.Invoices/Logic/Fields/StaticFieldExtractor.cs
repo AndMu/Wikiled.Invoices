@@ -4,18 +4,13 @@ using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields
 {
-    public class StaticFieldExtractor : IFieldExtractor
+    public class StaticFieldExtractor
     {
-        public IEnumerable<FieldResult> Extract(InvoiceField field, Document document)
+        public IEnumerable<FieldResult> Extract(InvoiceField field)
         {
             if (field == null)
             {
                 throw new ArgumentNullException(nameof(field));
-            }
-
-            if (document == null)
-            {
-                throw new ArgumentNullException(nameof(document));
             }
 
             if (!field.Key.StartsWith("static_", StringComparison.OrdinalIgnoreCase))

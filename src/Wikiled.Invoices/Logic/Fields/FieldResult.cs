@@ -13,5 +13,10 @@ namespace Wikiled.Invoices.Logic.Fields
         public string Key { get; }
 
         public string Value { get; }
+
+        public override string ToString()
+        {
+            return $"{Key}: {Value}";
+        }
     }
 }
