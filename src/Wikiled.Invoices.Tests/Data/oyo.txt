@@ -1,43 +1,48 @@
-PAYMENT RECEIPT
-Guest Name: Sanjay Date: 31/12/2017
-Hotel Details
-OYO 4189 Resort Nanganallur,
-25,Vembuliamman Koil Street,, Pazhavanthangal, Chennai
-Check In
-31/12/2017
-Check Out
-01/01/2018
-Rooms
-1
-Booking ID
-IBZY2087
-Payment Mode
-Cash at Hotel
-DESCRIPTION RATE AMOUNT
-Room Charges Rs 1939 x 1 Night x 1 Room Rs 1939
-Grand Total Rs 1939
-Payment received by OYO Paid through Cash At Hotel (Rs 1939) Rs 1939
-Balance ( if any ) Rs 0
-Please Note: Amount payable is inclusive of Central & State Goods & Services Tax at applicable slab rates. Please ask Hotel
-for invoice at the time of check-out.
-Note : All Payment to be made in favor of
-Oravel Stays Pvt. Ltd.
-Bank Name
-HDFC Bank
-Account No.
-00030340067212
-Address
-209-214, Kailash Building26, Kasturba Gandhi Marg,
-New Delhi,
-New Delhi - 110001
-IFSC CODE
-HDFC0000003
-GSTIN
-06AABCO6063D1ZQ
-CIN
-U63090DL2012PTC231770
-Oravel Stays Private Limited
-Registered Office: Delhi Rectangle Regus, Level 4, Rectangle 1, Commercial Complex D-4, Saket, New Delhi - 110017
-Corporate Office: 9th floor, Spaze Palazo, Southern Peripheral Road, Sec-69, Gurgaon -122001 | Phone: 080 100 444 66 | Email:
-contactus@oyorooms.com
+0Y0 PAYMENT RECEI PT 
+
+
+Guest Name: Sanjay Date: 31/12/2017 
+Hotel Details Check In Check Out Rooms 
+OYO 4189 Resort Nanganallur, 31/122017 01/01/2018 1 
+25,Vembuliamman Koil Street,, Pazhavanthangal, Chennai 
+Booking ID Payment Mode 
+|BZY2087 Cash at Hotel 
+DESCRIPTION RATE AMOUNT 
+Room Charges Rs 1939 X 1 Night X 1 Room Rs 1939 
+Grand Total Rs 1939 
+Payment received by OYO Paid through Cash At Hotel (Rs 1939) Rs 1939 
+Balance ( if any ) Rs 0 
+
+
+Please Note: Amount payable is inclusive of Central & State Goods & Services Tax at applicable slab rates. Please ask Hotel 
+for invoice at the time of check-out. 
+
+
+Note : All Payment to be made in favor of 
+Oravel Stays Pvt. Ltd. 
+
+
+Bank Name Account No. 
+HDFC Bank 00030340067212 
+Address IFSC CODE 
+209-214, Kailash Building26, Kasturba Gandhi Marg, HDFC0000003 
+New Delhi, 
+
+
+New Delhi - 110001 
+
+
+GSTIN CIN 
+
+
+06AABC06063D1ZQ U63090DL2012PTC231770 
+
+
+Oravel Stays Private Limited 
+Registered Office: Delhi Rectangle Regus, Level 4, Rectangle 1, Commercial Complex D-4, Saket, New Delhi - 110017 
+
+
+Corporate Office: 9th floor, Spaze Palazo, Southern Peripheral Road, Sec-69, Gurgaon -122001 | Phone: 080 100 444 66 | Email: 
+contactus@oyorooms.com 
+
 

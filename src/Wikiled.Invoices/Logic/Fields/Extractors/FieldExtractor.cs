@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Wikiled.Invoices.Yaml.Data;
 
-namespace Wikiled.Invoices.Logic.Fields
+namespace Wikiled.Invoices.Logic.Fields.Extractors
 {
     public class FieldExtractor : IFieldExtractor
     {
+        public bool CanHandle(InvoiceField field)
+        {
+            if (field == null)
+            {
+                throw new ArgumentNullException(nameof(field));
+            }
+
+            return true;
+        }
+
         public IEnumerable<FieldResult> Extract(InvoiceField field, Document document)
         {
             if (field == null)

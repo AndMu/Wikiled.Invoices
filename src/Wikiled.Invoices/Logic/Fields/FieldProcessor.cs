@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using Wikiled.Invoices.Logic.Fields.Aggregators;
+using Wikiled.Invoices.Logic.Fields.Extractors;
 using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields
 {
     public class FieldProcessor : IFieldProcessor
     {
-        private readonly IFieldExtractor extractors;
+        private readonly IFieldExtractor extractor;
 
-        public FieldProcessor(IFieldExtractor extractors)
+        private readonly IFieldAggregator aggregator;
+
+        public FieldProcessor(IFieldExtractor extractor, IFieldAggregator aggregator)
         {
-            this.extractors = extractors;
+            this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
+            this.aggregator = aggregator ?? throw new ArgumentNullException(nameof(aggregator));
         }
 
         public IEnumerable<FieldResult> Construct(InvoiceTemplate template, Document document)
@@ -22,13 +27,11 @@ namespace Wikiled.Invoices.Logic.Fields
 
             foreach (InvoiceField field in template.Fields)
             {
-                foreach (IFieldExtractor extractor in extractors)
+                var result = extractor.Extract(field, document);
+                result = aggregator.Aggregate(field, result);
+                foreach (var item in result)
                 {
-                    var result = extractor.Extract(field, document);
-                    foreach (var item in result)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }

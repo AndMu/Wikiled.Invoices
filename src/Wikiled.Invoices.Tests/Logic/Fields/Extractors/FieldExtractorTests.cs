@@ -1,10 +1,10 @@
 using System.Linq;
 using NUnit.Framework;
 using Wikiled.Invoices.Logic;
-using Wikiled.Invoices.Logic.Fields;
+using Wikiled.Invoices.Logic.Fields.Extractors;
 using Wikiled.Invoices.Yaml.Data;
 
-namespace Wikiled.Invoices.Tests.Logic.Fields
+namespace Wikiled.Invoices.Tests.Logic.Fields.Extractors
 {
     [TestFixture]
     public class FieldExtractorTests
