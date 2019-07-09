@@ -33,7 +33,7 @@ namespace Wikiled.Invoices.Logic.Fields.Extractors
                 yield break;
             }
 
-            var key = field.Key.Substring(6);
+            var key = field.Key.Substring(7);
             foreach (var value in field.Values)
             {
                 yield return new FieldResult(key, value);

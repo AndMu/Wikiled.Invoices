@@ -3,10 +3,8 @@ using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields.Extractors
 {
-    public interface IFieldExtractor
+    public interface IFieldExtractor : IFieldSupport
     {
-        bool CanHandle(InvoiceField field);
-
         IEnumerable<FieldResult> Extract(InvoiceField field, Document document);
     }
 }
