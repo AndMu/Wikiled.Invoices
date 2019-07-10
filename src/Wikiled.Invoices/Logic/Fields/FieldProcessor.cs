@@ -28,7 +28,7 @@ namespace Wikiled.Invoices.Logic.Fields
             foreach (InvoiceField field in template.Fields)
             {
                 var result = extractor.Extract(field, document);
-                result = aggregator.Aggregate(field, result);
+                result = aggregator.Aggregate(template, field, result);
                 foreach (var item in result)
                 {
                     yield return item;

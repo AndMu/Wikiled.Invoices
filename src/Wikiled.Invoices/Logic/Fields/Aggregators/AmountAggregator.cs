@@ -9,7 +9,7 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
 {
     public class AmountFieldExtractor : IFieldAggregator
     {
-        private ILogger<AmountFieldExtractor> logger;
+        private readonly ILogger<AmountFieldExtractor> logger;
 
         public AmountFieldExtractor(ILogger<AmountFieldExtractor> logger)
         {
@@ -26,35 +26,49 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
             return field.Key.StartsWith("sum_amount", StringComparison.OrdinalIgnoreCase) || field.Key.StartsWith("amount", StringComparison.OrdinalIgnoreCase);
         }
 
-        public IEnumerable<FieldResult> Aggregate(InvoiceField field, IEnumerable<FieldResult> results)
+        public IEnumerable<FieldResult> Aggregate(InvoiceTemplate template, InvoiceField field, IEnumerable<FieldResult> results)
         {
             double value = 0;
             var allItems = results.ToArray();
+            bool found = false;
             if (allItems.Length > 0)
             {
                 if (field.Key.StartsWith("sum_amount", StringComparison.OrdinalIgnoreCase))
                 {
-                    value += allItems.Sum(GetValue);
+                    foreach (var item in allItems)
+                    {
+                        if (GetValue(item, out var calculated))
+                        {
+                            value += calculated;
+                            found = true;
+                        }
+                    }
+
                 }
                 else
                 {
-                    value = GetValue(allItems[0]);
+                    if (GetValue(allItems[0], out value))
+                    {
+                        found = true;
+                    }
                 }
             }
 
-            yield return new FieldResult(field.Key, value.ToString(CultureInfo.CurrentCulture));
+            if (found)
+            {
+                yield return new FieldResult(field.Key, value.ToString(CultureInfo.CurrentCulture));
+            }
         }
 
-        private double GetValue(FieldResult result)
+        private bool GetValue(FieldResult result, out double parsed)
         {
-            if (double.TryParse(result.Value, NumberStyles.Any, CultureInfo.CurrentCulture, out var parsed))
+            if (double.TryParse(result.Value, NumberStyles.Any, CultureInfo.CurrentCulture, out parsed))
             {
-                return parsed;
+                return true;
             }
 
             logger.LogWarning("Failed parsing {0}", result.Value);
-            return 0;
-
+            return false;
         }
     }
 }

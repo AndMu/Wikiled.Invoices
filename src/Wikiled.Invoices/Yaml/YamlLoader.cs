@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using Wikiled.Invoices.Helpers;
 using Wikiled.Invoices.Yaml.Data;
 using YamlDotNet.Serialization;
 
@@ -44,6 +45,15 @@ namespace Wikiled.Invoices.Yaml
                         var result = JsonConvert.DeserializeObject<InvoiceTemplate>(json);
                         if (result.Validate())
                         {
+                            if (result.Options.DateFormats != null)
+                            {
+                                for (var i = 0; i < result.Options.DateFormats.Length; i++)
+                                {
+                                    var format = result.Options.DateFormats[i];
+                                    result.Options.DateFormats[i] = PythonDateStyleConverter.Convert(format);
+                                }
+                            }
+
                             yield return result;
                         }
                         else

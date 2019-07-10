@@ -10,11 +10,11 @@ using Wikiled.Invoices.Yaml.Data;
 namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
 {
     [TestFixture]
-    public class AmountFieldExtractorTests
+    public class DateFieldExtractorTests
     {
-        private ILogger<AmountFieldExtractor> mockLogger;
+        private ILogger<DateFieldExtractor> mockLogger;
 
-        private AmountFieldExtractor instance;
+        private DateFieldExtractor instance;
 
         private InvoiceTemplate template;
 
@@ -22,19 +22,19 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         public void SetUp()
         {
             template = new InvoiceTemplate();
-            mockLogger = new NullLogger<AmountFieldExtractor>();
-            instance = CreateAmountFieldExtractor();
+            mockLogger = new NullLogger<DateFieldExtractor>();
+            instance = CreateInstance();
         }
 
-        [Test]
+       [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new AmountFieldExtractor(null));
+            Assert.Throws<ArgumentNullException>(() => new DateFieldExtractor(null));
         }
 
-        [TestCase("SUM_AMOUNT", true)]
-        [TestCase("amount", true)]
-        [TestCase("date", false)]
+        [TestCase("date", true)]
+        [TestCase("amount_date", true)]
+        [TestCase("xxx", false)]
         public void CanHandle(string field, bool expected)
         {
             var result = instance.CanHandle(new InvoiceField { Key = field });
@@ -44,41 +44,32 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         [Test]
         public void Aggregate()
         {
-            var field = new InvoiceField {Key = "amount"};
-            var result = instance.Aggregate(template, field, new[] {new FieldResult("1", "2"), new FieldResult("1", "3")}).ToArray();
+            var field = new InvoiceField { Key = "date" };
+            template.Options.DateFormats = new[] { "YYYY-mm-dd" };
+            var result = instance.Aggregate(template, field, new[] { new FieldResult("1", "2015-10-01"), new FieldResult("1", "2015-12-01") }).ToArray();
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("2", result[0].Value);
+            Assert.AreEqual("2015-10-01", result[0].Value);
         }
 
         [Test]
         public void AggregateError()
         {
-            var field = new InvoiceField { Key = "amount" };
+            var field = new InvoiceField { Key = "date" };
             var result = instance.Aggregate(template, field, new[] { new FieldResult("1", "x"), new FieldResult("1", "a") }).ToArray();
             Assert.AreEqual(0, result.Length);
         }
 
         [Test]
-        public void AggregateSum()
-        {
-            var field = new InvoiceField { Key = "sum_amount" };
-            var result = instance.Aggregate(template, field, new[] { new FieldResult("1", "2"), new FieldResult("1", "3") }).ToArray();
-            Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("5", result[0].Value);
-        }
-
-        [Test]
         public void AggregateArguments()
         {
-            Assert.Throws<ArgumentNullException>(() => instance.Aggregate(null, new InvoiceField(), new[] { new FieldResult("1", "2") }).ToArray());
+            Assert.Throws<ArgumentNullException>(() => instance.Aggregate(null, new InvoiceField(), new[] { new FieldResult("1", "2")}).ToArray());
             Assert.Throws<ArgumentNullException>(() => instance.Aggregate(template, null, new[] { new FieldResult("1", "2") }).ToArray());
             Assert.Throws<ArgumentNullException>(() => instance.Aggregate(template, new InvoiceField(), null).ToArray());
         }
 
-
-        private AmountFieldExtractor CreateAmountFieldExtractor()
+        private DateFieldExtractor CreateInstance()
         {
-            return new AmountFieldExtractor(mockLogger);
+            return new DateFieldExtractor(mockLogger);
         }
     }
 }
