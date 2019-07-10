@@ -5,8 +5,6 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
 {
     public interface IFieldAggregator : IFieldSupport
     {
-        IEnumerable<FieldResult> Aggregate(InvoiceTemplate template,
-                                           InvoiceField field,
-                                           IEnumerable<FieldResult> results);
+        IEnumerable<FieldResult> Aggregate(InvoiceTemplate template, InvoiceField field, IEnumerable<FieldResult> results);
     }
 }

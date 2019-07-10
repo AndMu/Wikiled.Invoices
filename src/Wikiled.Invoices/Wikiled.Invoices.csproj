@@ -14,5 +14,9 @@
     <PackageReference Include="YamlDotNet" Version="6.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logic\Lines\" />
+  </ItemGroup>
+
 
 </Project>

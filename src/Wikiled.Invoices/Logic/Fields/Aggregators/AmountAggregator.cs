@@ -28,6 +28,21 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
 
         public IEnumerable<FieldResult> Aggregate(InvoiceTemplate template, InvoiceField field, IEnumerable<FieldResult> results)
         {
+            if (template == null)
+            {
+                throw new ArgumentNullException(nameof(template));
+            }
+
+            if (field?.Key == null)
+            {
+                throw new ArgumentNullException(nameof(field));
+            }
+
+            if (results == null)
+            {
+                throw new ArgumentNullException(nameof(results));
+            }
+
             double value = 0;
             var allItems = results.ToArray();
             bool found = false;
@@ -37,17 +52,16 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
                 {
                     foreach (var item in allItems)
                     {
-                        if (GetValue(item, out var calculated))
+                        if (GetValue(template, item, out var calculated))
                         {
                             value += calculated;
                             found = true;
                         }
                     }
-
                 }
                 else
                 {
-                    if (GetValue(allItems[0], out value))
+                    if (GetValue(template, allItems[0], out value))
                     {
                         found = true;
                     }
@@ -60,9 +74,17 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
             }
         }
 
-        private bool GetValue(FieldResult result, out double parsed)
+        private bool GetValue(InvoiceTemplate template, FieldResult result, out double parsed)
         {
-            if (double.TryParse(result.Value, NumberStyles.Any, CultureInfo.CurrentCulture, out parsed))
+            var separator = CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator;
+            var text = result.Value;
+            if (!string.IsNullOrEmpty(template?.Options.DecimalSeparator) &&
+                template.Options.DecimalSeparator != separator)
+            {
+                text = text.Replace(template.Options.DecimalSeparator, separator);
+            }
+
+            if (double.TryParse(text, NumberStyles.Any, CultureInfo.CurrentCulture, out parsed))
             {
                 return true;
             }

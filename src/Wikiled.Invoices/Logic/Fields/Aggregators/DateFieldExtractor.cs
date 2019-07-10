@@ -33,7 +33,7 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
                 throw new ArgumentNullException(nameof(template));
             }
 
-            if (field == null)
+            if (field?.Key == null)
             {
                 throw new ArgumentNullException(nameof(field));
             }
@@ -53,7 +53,7 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
                         continue;
                     }
 
-                    yield return new FieldResult(field.Key, date.ToString(CultureInfo.CurrentCulture));
+                    yield return new FieldResult(field.Key, date.ToShortDateString());
                     break;
                 }
             }
@@ -64,7 +64,7 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
             parsed = DateTime.MinValue;
             if (template.Options.DateFormats == null)
             {
-                if (!DateTime.TryParse(result.Value, out parsed))
+                if (DateTime.TryParse(result.Value, out parsed))
                 {
                     return true;
                 }
@@ -73,7 +73,7 @@ namespace Wikiled.Invoices.Logic.Fields.Aggregators
             {
                 foreach (var format in template.Options.DateFormats)
                 {
-                    if (!DateTime.TryParseExact(result.Value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsed))
+                    if (DateTime.TryParseExact(result.Value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out parsed))
                     {
                         return true;
                     }

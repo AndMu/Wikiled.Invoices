@@ -45,10 +45,11 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         public void Aggregate()
         {
             var field = new InvoiceField { Key = "date" };
-            template.Options.DateFormats = new[] { "YYYY-mm-dd" };
+            template.Options = new InvoiceTemplateOptions();
+            template.Options.DateFormats = new[] { "yyyy-MM-dd" };
             var result = instance.Aggregate(template, field, new[] { new FieldResult("1", "2015-10-01"), new FieldResult("1", "2015-12-01") }).ToArray();
             Assert.AreEqual(1, result.Length);
-            Assert.AreEqual("2015-10-01", result[0].Value);
+            Assert.AreEqual(new DateTime(2015, 10, 01).ToShortDateString(), result[0].Value);
         }
 
         [Test]

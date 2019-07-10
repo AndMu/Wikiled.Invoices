@@ -51,6 +51,17 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         }
 
         [Test]
+        public void AggregateWithSeparator()
+        {
+            var field = new InvoiceField { Key = "amount" };
+            template.Options = new InvoiceTemplateOptions();
+            template.Options.DecimalSeparator = ":";
+            var result = instance.Aggregate(template, field, new[] { new FieldResult("1", "2:3")}).ToArray();
+            Assert.AreEqual(1, result.Length);
+            Assert.AreEqual("2.3", result[0].Value);
+        }
+
+        [Test]
         public void AggregateError()
         {
             var field = new InvoiceField { Key = "amount" };
