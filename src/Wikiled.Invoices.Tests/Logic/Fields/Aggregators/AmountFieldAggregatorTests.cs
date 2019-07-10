@@ -10,11 +10,11 @@ using Wikiled.Invoices.Yaml.Data;
 namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
 {
     [TestFixture]
-    public class AmountFieldExtractorTests
+    public class AmountFieldAggregatorTests
     {
-        private ILogger<AmountFieldExtractor> mockLogger;
+        private ILogger<AmountFieldAggregator> mockLogger;
 
-        private AmountFieldExtractor instance;
+        private AmountFieldAggregator instance;
 
         private InvoiceTemplate template;
 
@@ -22,14 +22,14 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         public void SetUp()
         {
             template = new InvoiceTemplate();
-            mockLogger = new NullLogger<AmountFieldExtractor>();
+            mockLogger = new NullLogger<AmountFieldAggregator>();
             instance = CreateAmountFieldExtractor();
         }
 
         [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new AmountFieldExtractor(null));
+            Assert.Throws<ArgumentNullException>(() => new AmountFieldAggregator(null));
         }
 
         [TestCase("SUM_AMOUNT", true)]
@@ -87,9 +87,9 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         }
 
 
-        private AmountFieldExtractor CreateAmountFieldExtractor()
+        private AmountFieldAggregator CreateAmountFieldExtractor()
         {
-            return new AmountFieldExtractor(mockLogger);
+            return new AmountFieldAggregator(mockLogger);
         }
     }
 }

@@ -11,11 +11,11 @@ namespace Wikiled.Invoices.Yaml
 {
     public class YamlLoader : IYamlLoader
     {
-        private readonly ILogger<YamlLoader> _logger;
+        private readonly ILogger<YamlLoader> logger;
 
         public YamlLoader(ILogger<YamlLoader> logger)
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public IEnumerable<InvoiceTemplate> Load()
@@ -28,7 +28,7 @@ namespace Wikiled.Invoices.Yaml
                 {
                     if (stream == null)
                     {
-                        _logger.LogError("Stream {0} is null", file);
+                        logger.LogError("Stream {0} is null", file);
                         continue;
                     }
 
@@ -58,7 +58,7 @@ namespace Wikiled.Invoices.Yaml
                         }
                         else
                         {
-                            _logger.LogError("Failed to construct object: {0}", json);
+                            logger.LogError("Failed to construct object: {0}", json);
                         }
                     }
                 }

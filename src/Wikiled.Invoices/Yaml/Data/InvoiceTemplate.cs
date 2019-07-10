@@ -11,6 +11,9 @@ namespace Wikiled.Invoices.Yaml.Data
 
         public string[] Keywords { get; set; }
 
+        [JsonProperty("required_fields")]
+        public string[] RequiredFields { get; set; } = { "date", "amount", "invoice_number", "issuer" };
+
         [JsonConverter(typeof(InvoiceFieldsConverter))]
         public InvoiceField[] Fields { get; set; }
 

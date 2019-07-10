@@ -9,13 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Wikiled.Common" Version="1.1.9" />
+    <PackageReference Include="Wikiled.Common.Utilities" Version="1.1.30" />
     <PackageReference Include="YamlDotNet" Version="6.1.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Logic\Lines\" />
   </ItemGroup>
 
 

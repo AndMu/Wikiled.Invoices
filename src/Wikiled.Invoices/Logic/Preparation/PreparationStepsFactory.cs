@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Preparation
@@ -11,6 +12,13 @@ namespace Wikiled.Invoices.Logic.Preparation
         private readonly RemoveWhiteSpacesStep removeWhiteSpaces = new RemoveWhiteSpacesStep();
 
         private readonly RemoveAccentsStep removeAccents = new RemoveAccentsStep();
+
+        private ILogger<PreparationStepsFactory> logger;
+
+        public PreparationStepsFactory(ILogger<PreparationStepsFactory> logger)
+        {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
         public IEnumerable<IPreparationStep> Construct(InvoiceTemplate template)
         {
@@ -34,11 +42,20 @@ namespace Wikiled.Invoices.Logic.Preparation
                 yield return removeAccents;
             }
 
-            if (template.Options.Replace != null)
+            if (template.Options.Replace == null)
             {
-                foreach (var pair in template.Options.Replace)
+                yield break;
+            }
+
+            foreach (var pair in template.Options.Replace)
+            {
+                if (pair.Length == 2)
                 {
-                    yield return new ReplaceStep(pair.Key, pair.Value);
+                    yield return new ReplaceStep(pair[0], pair[1]);
+                }
+                else
+                {
+                    logger.LogWarning("Failed parsing replace for {0}", template);
                 }
             }
         }

@@ -10,11 +10,11 @@ using Wikiled.Invoices.Yaml.Data;
 namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
 {
     [TestFixture]
-    public class DateFieldExtractorTests
+    public class DateFieldAggregatorTests
     {
-        private ILogger<DateFieldExtractor> mockLogger;
+        private ILogger<DateFieldAggregator> mockLogger;
 
-        private DateFieldExtractor instance;
+        private DateFieldAggregator instance;
 
         private InvoiceTemplate template;
 
@@ -22,14 +22,14 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
         public void SetUp()
         {
             template = new InvoiceTemplate();
-            mockLogger = new NullLogger<DateFieldExtractor>();
+            mockLogger = new NullLogger<DateFieldAggregator>();
             instance = CreateInstance();
         }
 
        [Test]
         public void Construct()
         {
-            Assert.Throws<ArgumentNullException>(() => new DateFieldExtractor(null));
+            Assert.Throws<ArgumentNullException>(() => new DateFieldAggregator(null));
         }
 
         [TestCase("date", true)]
@@ -68,9 +68,9 @@ namespace Wikiled.Invoices.Tests.Logic.Fields.Aggregators
             Assert.Throws<ArgumentNullException>(() => instance.Aggregate(template, new InvoiceField(), null).ToArray());
         }
 
-        private DateFieldExtractor CreateInstance()
+        private DateFieldAggregator CreateInstance()
         {
-            return new DateFieldExtractor(mockLogger);
+            return new DateFieldAggregator(mockLogger);
         }
     }
 }

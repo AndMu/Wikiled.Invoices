@@ -13,7 +13,9 @@ namespace Wikiled.Invoices.Logic
             Document = document ?? throw new ArgumentNullException(nameof(document));
         }
 
-        public static ExtractionResult None { get; } = new ExtractionResult(new Document("EMPTY"), InvoiceTemplate.None, new FieldResult[] { });
+        public static ExtractionResult None { get; } = new ExtractionResult(new Document("EMPTY"), InvoiceTemplate.None, new FieldResult[] { }) { IsSuccessful = false };
+
+        public bool IsSuccessful { get; private set; } = true;
 
         public string Issuer => Template.Issuer;
 

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Wikiled.Invoices.Yaml.Data
 {
@@ -24,7 +23,7 @@ namespace Wikiled.Invoices.Yaml.Data
         public string[] Languages { get; set; }
 
         [JsonProperty("replace")]
-        public KeyValuePair<string, string>[] Replace { get; set; }
+        public string[][] Replace { get; set; }
 
         [JsonProperty("decimal_separator")]
         public string DecimalSeparator { get; set; } = ".";

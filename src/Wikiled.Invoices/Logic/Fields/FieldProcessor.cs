@@ -10,12 +10,12 @@ namespace Wikiled.Invoices.Logic.Fields
     {
         private readonly IFieldExtractor extractor;
 
-        private readonly IFieldAggregator aggregator;
+        private readonly IFieldAggregator[] aggregators;
 
-        public FieldProcessor(IFieldExtractor extractor, IFieldAggregator aggregator)
+        public FieldProcessor(IFieldExtractor extractor, IFieldAggregator[] aggregators)
         {
             this.extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
-            this.aggregator = aggregator ?? throw new ArgumentNullException(nameof(aggregator));
+            this.aggregators = aggregators ?? throw new ArgumentNullException(nameof(aggregators));
         }
 
         public IEnumerable<FieldResult> Construct(InvoiceTemplate template, Document document)
@@ -28,11 +28,22 @@ namespace Wikiled.Invoices.Logic.Fields
             foreach (InvoiceField field in template.Fields)
             {
                 var result = extractor.Extract(field, document);
-                result = aggregator.Aggregate(template, field, result);
-                foreach (var item in result)
+                foreach (var aggregator in aggregators)
                 {
-                    yield return item;
+                    if (!aggregator.CanHandle(field))
+                    {
+                        continue;
+                    }
+
+                    IEnumerable<FieldResult> aggregated = aggregator.Aggregate(template, field, result);
+                    foreach (FieldResult item in aggregated)
+                    {
+                        yield return item;
+                    }
+
+                    break;
                 }
+                
             }
         }
     }

@@ -1,22 +1,27 @@
 ﻿using System;
 using System.Linq;
+using Wikiled.Invoices.Logic.Extractor;
 using Wikiled.Invoices.Yaml;
-using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic
 {
     public class InformationExtractor
     {
-        private InvoiceTemplate[] templates;
+        private readonly ITemplateExtractor[] templates;
 
-        public InformationExtractor(IYamlLoader templatesSource)
+        public InformationExtractor(IYamlLoader templatesSource, ITemplateExtractorFactory factory)
         {
             if (templatesSource == null)
             {
                 throw new ArgumentNullException(nameof(templatesSource));
             }
 
-            templates = templatesSource.Load().ToArray();
+            if (factory == null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
+
+            templates = templatesSource.Load().Select(factory.Create).ToArray();
         }
 
         public ExtractionResult Extract(string invoice)
@@ -26,7 +31,16 @@ namespace Wikiled.Invoices.Logic
                 throw new ArgumentNullException(nameof(invoice));
             }
 
-            throw new NotImplementedException();
+            foreach (var template in templates)
+            {
+                var result = template.Extract(new Document(invoice));
+                if (result.IsSuccessful)
+                {
+                    return result;
+                }
+            }
+
+            return ExtractionResult.None;
         }
     }
 }

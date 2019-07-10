@@ -7,11 +7,11 @@ using Wikiled.Invoices.Yaml.Data;
 
 namespace Wikiled.Invoices.Logic.Fields.Aggregators
 {
-    public class AmountFieldExtractor : IFieldAggregator
+    public class AmountFieldAggregator : IFieldAggregator
     {
-        private readonly ILogger<AmountFieldExtractor> logger;
+        private readonly ILogger<AmountFieldAggregator> logger;
 
-        public AmountFieldExtractor(ILogger<AmountFieldExtractor> logger)
+        public AmountFieldAggregator(ILogger<AmountFieldAggregator> logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
