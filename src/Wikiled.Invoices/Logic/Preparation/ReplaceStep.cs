@@ -17,7 +17,7 @@ namespace Wikiled.Invoices.Logic.Preparation
 
         public string Prepare(string text)
         {
-            return text.ReplaceString(source, replacement, ReplacementOption.None);
+            return text.Replace(source, replacement);
         }
     }
 }

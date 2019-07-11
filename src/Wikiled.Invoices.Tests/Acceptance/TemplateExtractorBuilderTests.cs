@@ -21,7 +21,7 @@ namespace Wikiled.Invoices.Tests.Acceptance
             var text = File.ReadAllText(Path.Combine(TestContext.CurrentContext.TestDirectory, "Data", "oyo.txt"));
             var result = instance.Extract(text);
             Assert.IsTrue(result.IsSuccessful);
-            Assert.AreEqual(2, result.Fields.Length);
+            Assert.AreEqual(5, result.Fields.Length);
         }
 
         private InformationExtractor CreateTemplateExtractorBuilder()

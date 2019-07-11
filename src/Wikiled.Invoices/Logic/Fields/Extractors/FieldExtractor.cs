@@ -31,7 +31,7 @@ namespace Wikiled.Invoices.Logic.Fields.Extractors
 
             foreach (var value in field.Values)
             {
-                var match = Regex.Matches(document.Text, value);
+                var match = Regex.Matches(document.Text, value, RegexOptions.IgnoreCase);
                 foreach (Match matchGroup in match)
                 {
                     yield return new FieldResult(field.Key, matchGroup.Groups[matchGroup.Groups.Count - 1].Value);
